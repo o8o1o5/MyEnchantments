@@ -13,17 +13,16 @@ import java.util.List;
 import java.util.Map;
 
 public class EnchantStats {
+    private final Map<Attribute, Double> attributeSums = new HashMap<>();
     private final List<Component> loreLines = new ArrayList<>();
     private final Map<Attribute, AttributeModifier> modifiers = new HashMap<>();
 
     public void addLore(Component line) { this.loreLines.add(line); }
 
-    public void addAttribute(Attribute attr, double amount, AttributeModifier.Operation op, EquipmentSlotGroup slot) {
-        NamespacedKey modifierKey = new NamespacedKey("myenchantments", attr.getKey().getKey());
-        AttributeModifier modifier = new AttributeModifier(modifierKey, amount, op, slot);
-        this.modifiers.put(attr, modifier);
+    public void addAttribute(Attribute attr, double amount) {
+        attributeSums.put(attr, attributeSums.getOrDefault(attr, 0.0) + amount);
     }
 
     public List<Component> getLoreLines() { return loreLines; }
-    public Map<Attribute, AttributeModifier> getModifiers() { return modifiers; }
+    public Map<Attribute, Double> getAttributeSums() { return attributeSums; }
 }
